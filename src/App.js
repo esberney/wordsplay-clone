@@ -98,6 +98,30 @@ const highlightedIndices = (grid, word) => {
   return highlighted;
 }
 
+const highlightedIndices2 = (grid, word) => {
+  const highlighted = [];
+  for (let character of word) {
+    let found = false;
+    for (let row = 0; row < grid.length; row++) {
+      for (let column = 0; column < grid[row].length; column++) {
+        if (grid[row][column].toUpperCase() === character.toUpperCase()) {
+          found = true;
+          highlighted.push({
+            rowIndex: row,
+            columnIndex: column
+          });
+        }
+      }
+    }
+
+    if (found === false) {
+      return [];
+    }
+  }
+
+  return highlighted;
+}
+
 const TextEntry = ({ onChange }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px' }}>
@@ -116,7 +140,7 @@ class App extends Component {
   render() {
 
     const { myWord } = this.state;
-    const highlights = highlightedIndices(myLetters, myWord);
+    const highlights = highlightedIndices2(myLetters, myWord);
 
 
     return (
