@@ -4,18 +4,19 @@ import _ from 'lodash';
 import { ListGroup } from 'react-bootstrap';
 
 
-export const MyWords = ({ words: wordlist }) => {
-  const colorize = status => {
-    switch (status) {
-      case true:
-        return 'success';
-      case false:
-        return 'danger';
-      case undefined:
-      default:
-        return 'info';
-    }
+const colorize = status => {
+  switch (status) {
+    case true:
+      return 'success';
+    case false:
+      return 'danger';
+    case undefined:
+    default:
+      return 'info';
   }
+}
+
+export const MyWords = ({ words: wordlist }) => {
   return (
     <ListGroup style={{ width: '25%' }}>
       {
