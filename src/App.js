@@ -10,16 +10,6 @@ import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 
-const highlighted = [
-  {
-    rowIndex: 1,
-    columnIndex: 2
-  },  {
-    rowIndex: 0,
-    columnIndex: 1
-  }
-];
-
 const myLetters = [
   ['A', 'B', 'C', 'H'],
   ['D', 'E', 'F', 'R'],
