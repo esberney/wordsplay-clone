@@ -210,18 +210,44 @@ const highlightedIndices2 = (grid, word) => {
   return paths.reduce((result, path) => result.concat(path), []);
 }
 
-const TextEntry = ({ onChange }) => {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px', marginBottom: '50px' }}>
-      <input onChange={event => onChange(event.target.value)} onKeyPress={e => {
-        if (e.key === 'Enter') {
-          // check if ok (on the board and also a word)
-          // clear the input (always)
-          // add to word list (when ok)
-        }
-      }}></input>
-    </div>
-  );
+class TextEntry extends Component {
+
+  state = {
+    value: ''
+  }
+
+  render() {
+    const { onChange, onSuccess } = this.props;
+    const { value } = this.state;
+
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px', marginBottom: '50px' }}>
+        <input
+          value={value}
+          onChange={event => {
+            const { value } = event.target;
+            this.setState({ 
+              value
+            });
+            onChange(value);
+          }}
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              // check if ok (on the board and also a word)
+              // clear the input (always)
+              this.setState({
+                value: ''
+              });
+              // add to word list (when ok)
+              if (true) {
+                onSuccess && onSuccess(value);
+              }
+            }
+          }}>
+        </input>
+      </div>
+    );
+  }
 };
 
 const MyWords = ({ words }) => {
@@ -240,12 +266,13 @@ const MyWords = ({ words }) => {
 class App extends Component {
 
   state = {
-    myWord: ''
+    myWord: '',
+    wordlist: []
   }
 
   render() {
 
-    const { myWord } = this.state;
+    const { myWord, wordlist } = this.state;
     const highlights = highlightedIndices2(myLetters, myWord);
 
 
@@ -254,12 +281,22 @@ class App extends Component {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Grid letters2d={myLetters} highlights={highlights} />
         </div>
-        <TextEntry onChange={value => {
-          this.setState({
-            myWord: value
-          })
-        }} />
-        <MyWords words={['abc', 'def']} />
+        <TextEntry
+          onChange={value => {
+            this.setState({
+              myWord: value
+            })
+          }} 
+          onSuccess={value => {
+            this.setState(({ myWord, wordlist }) => {
+              return {
+                myWord: '',
+                wordlist: wordlist.concat([value])
+              };
+            });
+          }}
+        />
+        <MyWords words={wordlist} />
       </div>
     );
   }
