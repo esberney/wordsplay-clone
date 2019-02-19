@@ -1,3 +1,13 @@
+# wordsplay-clone
+
+## Getting Started
+
+1. Open the command prompt.
+2. Go to the project folder (`cd Documents\webboggle`).
+3. Run `yarn start`.
+4. Press `ctrl+c` to exit yarn.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
