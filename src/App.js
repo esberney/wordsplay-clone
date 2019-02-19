@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { highlightedIndices2 } from './match-finder.js';
