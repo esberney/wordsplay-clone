@@ -101,12 +101,7 @@ const highlightedIndices = (grid, word) => {
 }
 
 const letterMatches = (a, b) => {
-  try {
   return a.toUpperCase() === b.toUpperCase();
-  }
-  catch (err) {
-    debugger;
-  }
 }
 
 const searchWholeGrid = (grid, letter) => {
