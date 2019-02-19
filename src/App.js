@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
+import { connect, Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { highlightedIndices2 } from './match-finder.js';
+import { FlexCentered } from './FlexCentered.js';
 import { Grid } from './Grid.js';
 import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
@@ -16,19 +20,6 @@ const myLetters = [
   ['G', 'H', 'I', 'Q'],
   ['Z', 'H', 'N', 'T']
 ];
-
-const Centered = ({ children, style={} }) => {
-  return (
-    <div
-      style={Object.assign({
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-       }, style)}>
-      {children}
-    </div>
-  );
-}
 
 const isWordPossible = (word, isWordOnBoard) => {
   // not necessarily a word -- that takes time to verify
@@ -89,10 +80,10 @@ class App extends Component {
 
     return (
       <div>
-        <Centered>
+        <FlexCentered>
           <Grid letters2d={myLetters} highlights={highlights} />
-        </Centered>
-        <Centered style={{ marginTop: '50px', marginBottom: '50px' }}>
+        </FlexCentered>
+        <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
           <TextEntry
             value={word}
             onChange={value => {
@@ -103,10 +94,10 @@ class App extends Component {
             }} 
             onEnter={() => this.onGuess(isWordOnBoard) }
           />
-        </Centered>
-        <Centered>
+        </FlexCentered>
+        <FlexCentered>
           <MyWords words={wordlist} />
-        </Centered>
+        </FlexCentered>
       </div>
     );
   }
