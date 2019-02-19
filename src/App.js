@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import _ from 'lodash';
+import { ListGroup } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Table = styled.table`
   box-sizing: border-box;
@@ -210,11 +212,29 @@ const highlightedIndices2 = (grid, word) => {
 
 const TextEntry = ({ onChange }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px' }}>
-      <input onChange={event => onChange(event.target.value)}></input>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px', marginBottom: '50px' }}>
+      <input onChange={event => onChange(event.target.value)} onKeyPress={e => {
+        if (e.key === 'Enter') {
+          // check if ok (on the board and also a word)
+          // clear the input (always)
+          // add to word list (when ok)
+        }
+      }}></input>
     </div>
   );
 };
+
+const MyWords = ({ words }) => {
+  return (
+    <ListGroup style={{ width: '25%', marginLeft: '38%' }}>
+      {
+        words.map((word, index) => (
+          <ListGroup.Item key={index}>{word}</ListGroup.Item>
+        ))
+      }
+    </ListGroup>
+  );
+}
 
 
 class App extends Component {
@@ -239,6 +259,7 @@ class App extends Component {
             myWord: value
           })
         }} />
+        <MyWords words={['abc', 'def']} />
       </div>
     );
   }
