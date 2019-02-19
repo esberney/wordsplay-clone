@@ -212,13 +212,8 @@ const highlightedIndices2 = (grid, word) => {
 
 class TextEntry extends Component {
 
-  state = {
-    value: ''
-  }
-
   render() {
-    const { onChange, onSuccess } = this.props;
-    const { value } = this.state;
+    const { value, onChange, onEnter } = this.props;
 
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px', marginBottom: '50px' }}>
@@ -226,22 +221,11 @@ class TextEntry extends Component {
           value={value}
           onChange={event => {
             const { value } = event.target;
-            this.setState({ 
-              value
-            });
             onChange(value);
           }}
           onKeyPress={e => {
             if (e.key === 'Enter') {
-              // check if ok (on the board and also a word)
-              // clear the input (always)
-              this.setState({
-                value: ''
-              });
-              // add to word list (when ok)
-              if (true) {
-                onSuccess && onSuccess(value);
-              }
+              onEnter();
             }
           }}>
         </input>
@@ -266,14 +250,14 @@ const MyWords = ({ words }) => {
 class App extends Component {
 
   state = {
-    myWord: '',
+    word: '',
     wordlist: []
   }
 
   render() {
 
-    const { myWord, wordlist } = this.state;
-    const highlights = highlightedIndices2(myLetters, myWord);
+    const { word, wordlist } = this.state;
+    const highlights = highlightedIndices2(myLetters, word);
 
 
     return (
@@ -282,16 +266,22 @@ class App extends Component {
           <Grid letters2d={myLetters} highlights={highlights} />
         </div>
         <TextEntry
+          value={word}
           onChange={value => {
-            this.setState({
-              myWord: value
-            })
+            this.setState(({ word, wordlist }) => ({
+              word: value,
+              wordlist
+            }))
           }} 
-          onSuccess={value => {
-            this.setState(({ myWord, wordlist }) => {
+          onEnter={() => {
+
+            // check if ok (on the board and also a word)
+            // clear the input (always)
+            // add to word list (when ok)
+            this.setState(({ word, wordlist }) => {
               return {
-                myWord: '',
-                wordlist: wordlist.concat([value])
+                word: '',
+                wordlist: wordlist.concat([word])
               };
             });
           }}
