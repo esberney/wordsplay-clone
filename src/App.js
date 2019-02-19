@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { ListGroup } from 'react-bootstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { highlightedIndices2 } from './match-finder.js';
 import { Grid } from './Grid.js';
-import { TextEntry } from './TextEntry';
+import { TextEntry } from './TextEntry.js';
+import { MyWords } from './MyWords.js'
+import { Wordlist } from './Wordlist.js';
 
 const highlighted = [
   {
@@ -26,63 +27,6 @@ const myLetters = [
   ['Z', 'H', 'N', 'T']
 ];
 
-
-const MyWords = ({ words: wordlist }) => {
-  const colorize = status => {
-    switch (status) {
-      case true:
-        return 'success';
-      case false:
-        return 'danger';
-      case undefined:
-      default:
-        return 'info';
-    }
-  }
-  return (
-    <ListGroup style={{ width: '25%', marginLeft: '38%' }}>
-      {
-        wordlist.map((word, index) => (
-          <ListGroup.Item key={index} variant={colorize(wordlist.status(word))}>{word}</ListGroup.Item>
-        ))
-      }
-    </ListGroup>
-  );
-}
-
-class Wordlist {
-  constructor() {
-    this.set = new Set;
-    this.ordered = [];
-    this.validities = {};
-  }
-  add(entry) {
-    if (false === this.set.has(entry)) {
-      this.set.add(entry);
-      const index = _.sortedIndex(this.ordered, entry);
-      this.ordered.splice(index, 0, entry);
-
-      this.validities[entry] = undefined; // not yet known
-      return true; // added
-    }
-    
-    return false; // not added
-  }
-  with(entry) {
-    this.add(entry);
-    return this;
-  }
-  map(f) {
-    return this.ordered.map(f);
-  }
-  setStatus(entry, isOk) {
-    this.validities[entry] = isOk;
-  }
-  status(entry) {
-    // active, success, or danger result in blue, green, or red coloration
-    return this.validities[entry];
-  }
-}
 
 class App extends Component {
 
