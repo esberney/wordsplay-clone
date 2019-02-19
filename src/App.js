@@ -55,12 +55,40 @@ class App extends Component {
     wordlist: new Wordlist()
   }
 
+  onGuess(isWordOnBoard) {
+    const { word } = this.state;
+
+    const isAcceptable = isWordPossible(word, isWordOnBoard);
+    const updateWordlist = createUpdateWordlist(word, isAcceptable);
+
+    this.setState(({ wordlist }) => {
+      return {
+        word: '',
+        wordlist: updateWordlist(wordlist)
+      };
+    });
+
+    if (isAcceptable) {
+
+      // check validity
+      isWordAsync(word).
+      then(({ isWord, word }) => {
+        this.setState(({ word: currentWord, wordlist }) => {
+          wordlist.setStatus(word, isWord);
+          return {
+            word: currentWord,
+            wordlist
+          };
+        })
+      });
+    }
+  }
+
   render() {
 
     const { word, wordlist } = this.state;
     const highlights = highlightedIndices2(myLetters, word);
     const isWordOnBoard = highlights.length > 0;
-
 
     return (
       <div>
@@ -75,33 +103,7 @@ class App extends Component {
               wordlist
             }))
           }} 
-          onEnter={() => {
-
-            const isAcceptable = isWordPossible(word, isWordOnBoard);
-            const updateWordlist = createUpdateWordlist(word, isAcceptable);
-
-            this.setState(({ wordlist }) => {
-              return {
-                word: '',
-                wordlist: updateWordlist(wordlist)
-              };
-            });
-
-            if (isAcceptable) {
-
-              // check validity
-              isWordAsync(word).
-              then(({ isWord, word }) => {
-                this.setState(({ word: currentWord, wordlist }) => {
-                  wordlist.setStatus(word, isWord);
-                  return {
-                    word: currentWord,
-                    wordlist
-                  };
-                })
-              });
-            }
-          }}
+          onEnter={() => this.onGuess(isWordOnBoard) }
         />
         <MyWords words={wordlist} />
       </div>
