@@ -30,4 +30,7 @@ export class Wordlist {
     // active, success, or danger result in blue, green, or red coloration
     return this.validities[entry];
   }
+  isEmpty() {
+    return this.ordered.length === 0;
+  }
 }

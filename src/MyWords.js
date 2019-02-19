@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { ListGroup } from 'react-bootstrap';
+import { Card, ListGroup } from 'react-bootstrap';
 
 
 const colorize = status => {
@@ -18,12 +18,19 @@ const colorize = status => {
 
 export const MyWords = ({ words: wordlist }) => {
   return (
-    <ListGroup style={{ width: '25%' }}>
-      {
-        wordlist.map((word, index) => (
-          <ListGroup.Item key={index} variant={colorize(wordlist.status(word))}>{word}</ListGroup.Item>
-        ))
-      }
-    </ListGroup>
+    <Card style={{ width: '25%' }}>
+      <Card.Header>My Words</Card.Header>
+      <ListGroup variant="flush">
+        {
+          wordlist.isEmpty() ? (
+            <ListGroup.Item><em>Nothing here yet...</em></ListGroup.Item>
+          ) : (
+            wordlist.map((word, index) => (
+              <ListGroup.Item key={index} variant={colorize(wordlist.status(word))}>{word}</ListGroup.Item>
+            ))
+          )
+        }
+      </ListGroup>
+    </Card>
   );
 }
