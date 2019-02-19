@@ -17,6 +17,36 @@ const myLetters = [
   ['Z', 'H', 'N', 'T']
 ];
 
+const isWordAsync = word => {
+
+  // dummy check of validity -- todo: replace with call to server
+  const isWordPromise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve(true), 2000);
+  });
+
+  return isWordPromise.
+  then(isWord => {
+    return {
+      word,
+      isWord
+    }
+  });
+}
+
+const isWordPossible = (word, isWordOnBoard) => {
+  // not necessarily a word -- that takes time to verify
+  const isAcceptable = word && word.length && isWordOnBoard;
+  return isAcceptable;
+};
+
+const createUpdateWordlist = (word, isAcceptable) => wordlist => {
+
+  if (isAcceptable)
+    return wordlist.with(word);
+  else
+    return wordlist;  // no change
+};
+
 
 class App extends Component {
 
@@ -47,28 +77,21 @@ class App extends Component {
           }} 
           onEnter={() => {
 
-            // check if ok (on the board and also a word)
-            // clear the input (always)
-            // add to word list (when ok)
-
-            // not necessarily a word -- that takes time to verify
-            const isAcceptable = isWordOnBoard && word.length;
+            const isAcceptable = isWordPossible(word, isWordOnBoard);
+            const updateWordlist = createUpdateWordlist(word, isAcceptable);
 
             this.setState(({ wordlist }) => {
               return {
                 word: '',
-                wordlist: isAcceptable ? wordlist.with(word) : wordlist
+                wordlist: updateWordlist(wordlist)
               };
             });
 
             if (isAcceptable) {
 
               // check validity
-              let isWord = new Promise((resolve, reject) => {
-                setTimeout(() => resolve(true), 2000);
-              });
-
-              isWord.then(isWord => {
+              isWordAsync(word).
+              then(({ isWord, word }) => {
                 this.setState(({ word: currentWord, wordlist }) => {
                   wordlist.setStatus(word, isWord);
                   return {
