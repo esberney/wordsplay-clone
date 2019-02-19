@@ -246,12 +246,32 @@ const MyWords = ({ words }) => {
   );
 }
 
+class Wordlist {
+  constructor() {
+    this.set = new Set;
+    this.ordered = [];
+  }
+  add(entry) {
+    if (false === this.set.has(entry)) {
+      this.set.add(entry);
+      const index = _.sortedIndex(this.ordered, entry);
+      this.ordered.splice(index, 0, entry);
+    }
+  }
+  with(entry) {
+    this.add(entry);
+    return this;
+  }
+  map(f) {
+    return this.ordered.map(f);
+  }
+}
 
 class App extends Component {
 
   state = {
     word: '',
-    wordlist: []
+    wordlist: new Wordlist()
   }
 
   render() {
@@ -269,7 +289,7 @@ class App extends Component {
         <TextEntry
           value={word}
           onChange={value => {
-            this.setState(({ word, wordlist }) => ({
+            this.setState(({ wordlist }) => ({
               word: value,
               wordlist
             }))
@@ -282,7 +302,7 @@ class App extends Component {
             this.setState(({ word, wordlist }) => {
               return {
                 word: '',
-                wordlist: isWordOnBoard ? wordlist.concat([word]) : wordlist
+                wordlist: isWordOnBoard ? wordlist.with(word) : wordlist
               };
             });
           }}
