@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { highlightedIndices2 } from './match-finder.js';
 import { Grid } from './Grid.js';
+import { TextEntry } from './TextEntry';
 
 const highlighted = [
   {
@@ -25,35 +26,6 @@ const myLetters = [
   ['Z', 'H', 'N', 'T']
 ];
 
-
-class TextEntry extends Component {
-
-  componentDidMount() {
-    this.entry.focus();
-  }
-
-  render() {
-    const { value, onChange, onEnter } = this.props;
-
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '50px', marginBottom: '50px' }}>
-        <input
-          ref={input => { this.entry = input; }}
-          value={value}
-          onChange={event => {
-            const { value } = event.target;
-            onChange(value);
-          }}
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
-              onEnter();
-            }
-          }}>
-        </input>
-      </div>
-    );
-  }
-};
 
 const MyWords = ({ words: wordlist }) => {
   const colorize = status => {
