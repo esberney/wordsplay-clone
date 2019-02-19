@@ -9,6 +9,7 @@ import { Grid } from './Grid.js';
 import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
+import { isWordAsync } from './is-word-async.js';
 
 const myLetters = [
   ['A', 'B', 'C', 'H'],
@@ -16,22 +17,6 @@ const myLetters = [
   ['G', 'H', 'I', 'Q'],
   ['Z', 'H', 'N', 'T']
 ];
-
-const isWordAsync = word => {
-
-  // dummy check of validity -- todo: replace with call to server
-  const isWordPromise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve(true), 2000);
-  });
-
-  return isWordPromise.
-  then(isWord => {
-    return {
-      word,
-      isWord
-    }
-  });
-}
 
 const isWordPossible = (word, isWordOnBoard) => {
   // not necessarily a word -- that takes time to verify
