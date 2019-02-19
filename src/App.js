@@ -258,6 +258,7 @@ class App extends Component {
 
     const { word, wordlist } = this.state;
     const highlights = highlightedIndices2(myLetters, word);
+    const isWordOnBoard = highlights.length > 0;
 
 
     return (
@@ -281,7 +282,7 @@ class App extends Component {
             this.setState(({ word, wordlist }) => {
               return {
                 word: '',
-                wordlist: wordlist.concat([word])
+                wordlist: isWordOnBoard ? wordlist.concat([word]) : wordlist
               };
             });
           }}
