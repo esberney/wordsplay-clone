@@ -17,7 +17,7 @@ export const MyWords = ({ words: wordlist }) => {
     }
   }
   return (
-    <ListGroup style={{ width: '25%', marginLeft: '38%' }}>
+    <ListGroup style={{ width: '25%' }}>
       {
         wordlist.map((word, index) => (
           <ListGroup.Item key={index} variant={colorize(wordlist.status(word))}>{word}</ListGroup.Item>

@@ -17,6 +17,19 @@ const myLetters = [
   ['Z', 'H', 'N', 'T']
 ];
 
+const Centered = ({ children, style={} }) => {
+  return (
+    <div
+      style={Object.assign({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+       }, style)}>
+      {children}
+    </div>
+  );
+}
+
 const isWordPossible = (word, isWordOnBoard) => {
   // not necessarily a word -- that takes time to verify
   const isAcceptable = word && word.length && isWordOnBoard;
@@ -76,20 +89,24 @@ class App extends Component {
 
     return (
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Centered>
           <Grid letters2d={myLetters} highlights={highlights} />
-        </div>
-        <TextEntry
-          value={word}
-          onChange={value => {
-            this.setState(({ wordlist }) => ({
-              word: value,
-              wordlist
-            }))
-          }} 
-          onEnter={() => this.onGuess(isWordOnBoard) }
-        />
-        <MyWords words={wordlist} />
+        </Centered>
+        <Centered style={{ marginTop: '50px', marginBottom: '50px' }}>
+          <TextEntry
+            value={word}
+            onChange={value => {
+              this.setState(({ wordlist }) => ({
+                word: value,
+                wordlist
+              }))
+            }} 
+            onEnter={() => this.onGuess(isWordOnBoard) }
+          />
+        </Centered>
+        <Centered>
+          <MyWords words={wordlist} />
+        </Centered>
       </div>
     );
   }
