@@ -73,8 +73,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  //width: 250
+  width: 250
 });
 
 const nrows = 4;
