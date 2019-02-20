@@ -63,16 +63,62 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = isDraggingOver => ({
-    //background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: grid,
     //width: 250
 });
 
+const nrows = 4;
+const createState = (nRows) => {
+  Array.from({ length: nRows }, (v, k) => k).
+  reduce((state, k) => Object.assign(state, {
+    [`column-${k}`]: getItems(2) // []
+  }));
+
+};
+
+const Column = ({ columnId, columns }) => {
+
+  const columnContents = columns[columnId];
+  
+  return (
+    <Droppable droppableId={columnId}>
+        {(provided, snapshot) => (
+            <div
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}>
+                {columnContents.map((item, index) => (
+                    <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={index}>
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={getItemStyle(
+                                    snapshot.isDragging,
+                                    provided.draggableProps.style
+                                )}>
+                                <MyFakeWords title={item.content} style={{ width: '150px' }} />
+                            </div>
+                        )}
+                    </Draggable>
+                ))}
+                {provided.placeholder}
+            </div>
+        )}
+    </Droppable>
+  );
+};
+
 class App extends Component {
+    //state = createState(nrows)  // replaces { items, selected }
     state = {
-        items: getItems(10),
-        selected: getItems(5, 10)
-    };
+      items: getItems(4),
+      selected: getItems(2, 4)
+    }
 
     /**
      * A semi-generic way to handle multiple lists. Matches
@@ -80,8 +126,8 @@ class App extends Component {
      * source arrays stored in the state.
      */
     id2List = {
-        droppable: 'items',
-        droppable2: 'selected'
+        items: 'items',
+        selected: 'selected'
     };
 
     getList = id => this.state[this.id2List[id]];
@@ -103,7 +149,7 @@ class App extends Component {
 
             let state = { items };
 
-            if (source.droppableId === 'droppable2') {
+            if (source.droppableId === 'selected') {
                 state = { selected: items };
             }
 
@@ -117,8 +163,8 @@ class App extends Component {
             );
 
             this.setState({
-                items: result.droppable,
-                selected: result.droppable2
+                items: result.items,
+                selected: result.selected
             });
         }
     };
@@ -128,7 +174,7 @@ class App extends Component {
     render() {
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
-                <Droppable droppableId="droppable">
+                <Droppable droppableId="items">
                     {(provided, snapshot) => (
                         <div
                             ref={provided.innerRef}
@@ -156,7 +202,7 @@ class App extends Component {
                         </div>
                     )}
                 </Droppable>
-                <Droppable droppableId="droppable2">
+                <Droppable droppableId="selected">
                     {(provided, snapshot) => (
                         <div
                             ref={provided.innerRef}
