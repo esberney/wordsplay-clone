@@ -120,17 +120,7 @@ class App extends Component {
       selected: getItems(2, 4)
     }
 
-    /**
-     * A semi-generic way to handle multiple lists. Matches
-     * the IDs of the droppable container to the names of the
-     * source arrays stored in the state.
-     */
-    id2List = {
-        items: 'items',
-        selected: 'selected'
-    };
-
-    getList = id => this.state[this.id2List[id]];
+    getList = id => this.state[id];
 
     onDragEnd = result => {
         const { source, destination } = result;
