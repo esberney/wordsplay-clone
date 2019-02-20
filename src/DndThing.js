@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import classnames from 'classnames';
 
-import { createGetItems } from './items-creator.js';
+import { createGetItems, MyFakeWords } from './items-creator.js';
 import './DndThing.css';
 
 const getItems = createGetItems();
-const Item = getItems(1).content;
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -60,30 +59,26 @@ const Column = ({ columnId, columns, children, className, ...props }) => {
           ref={provided.innerRef}
           className={classnames(snapshot.isDraggingOver ? 'active-drop' : '', className)}
           {...props}>
-          {columnContents.map((item, index) => (
-            <Draggable
-              key={item.id}
-              draggableId={item.id}
-              index={index}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                  className={classnames('draggable', snapshot.isDragging ? 'active-drag' : '')}
-                  style={provided.draggableProps.style}>
-                  {
-                    (<Item />)
-                    /*
-                    children.map(Child => (
-                      (Child.key === item.id) ? (<Child />) : null
-                    ))
-                    */
-                  }
-                </div>
-              )}
-            </Draggable>
-          ))}
+          {columnContents.map((item, index) => {
+
+            return (
+              <Draggable
+                key={item.id}
+                draggableId={item.id}
+                index={index}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className={classnames('draggable', snapshot.isDragging ? 'active-drag' : '')}
+                    style={provided.draggableProps.style}>
+                    <MyFakeWords title="foo" />
+                  </div>
+                )}
+              </Draggable>
+            );
+          })}
           {provided.placeholder}
         </div>
       )}
@@ -138,7 +133,8 @@ class App extends Component {
 
     render() {
 
-      const { children } = this.props;
+      //const { children } = this.props;
+      const children = [];
 
       const columnIds = Object.keys(this.state);
       columnIds.sort();

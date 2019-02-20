@@ -15,9 +15,8 @@ import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
 import { createGetItems } from './items-creator.js';
 import { Decorated } from './Decorated.js';
+import { MyFakeWords } from './items-creator.js';
 
-
-const getItems = createGetItems();
 
 const myLetters = [
   ['A', 'B', 'C', 'H'],
@@ -110,52 +109,21 @@ class App extends Component {
       );
     }
 
-    const [
-      { id: itemId1, content: Item1 },
-      { id: itemId2, content: Item2 },
-      { id: itemId3, content: Item3 },
-      { id: itemId4, content: Item4 }
-    ] = getItems(4);
-
     return (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <MyThing initialState={{
-            'column-0': [
-              {
-                id: itemId1
-              },
-              {
-                id: itemId2
-              },
-              {
-                id: itemId3
-              }
-            ],
-            'column-1': [
-              {
-                id: 'the-board'
-              },
-              {
-                id: itemId4
-              }
-            ],
-            'column-2': [
-              {
-                id: 'entry'
-              },
-              {
-                id: 'your-words'
-              }
-            ]
+            'column-0': [ { id: 'item-1' }, { id: 'item-2' }, { id: 'item-3' } ],
+            'column-1': [ { id: 'the-board' }, { id: 'item-4' } ],
+            'column-2': [ { id: 'entry' }, { id: 'your-words' } ]
           }}>
             <Board key="the-board" />
             <Entry key="entry" style={{ width: '100%' }} />
             <MyWords key="your-words" style={{ width: '100% '}} />
-            <Item1 key={itemId1} />
-            <Item2 key={itemId2} />
-            <Item3 key={itemId3} />
-            <Item4 key={itemId4} />
+            <MyFakeWords key="item-1" title="Item 1" />
+            <MyFakeWords key="item-2" title="Item 2" />
+            <MyFakeWords key="item-3" title="Item 3" />
+            <MyFakeWords key="item-4" title="Item 4" />
           </MyThing>
         </div>
         <Board />
