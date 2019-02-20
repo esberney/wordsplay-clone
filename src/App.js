@@ -119,7 +119,7 @@ class App extends Component {
           }}>
             <Board key="the-board" />
             <Entry key="entry" style={{ width: '100%' }} />
-            <MyWords key="your-words" style={{ width: '100% '}} />
+            <MyWords key="your-words" words={wordlist} style={{ width: '100% '}} />
             <MyFakeWords key="item-1" title="Item 1" />
             <MyFakeWords key="item-2" title="Item 2" />
             <MyFakeWords key="item-3" title="Item 3" />

@@ -61,6 +61,8 @@ const Column = ({ columnId, columns, children, className, ...props }) => {
           {...props}>
           {columnContents.map((item, index) => {
 
+            const child = children.find(child => child.key === item.id);
+
             return (
               <Draggable
                 key={item.id}
@@ -73,7 +75,7 @@ const Column = ({ columnId, columns, children, className, ...props }) => {
                     {...provided.dragHandleProps}
                     className={classnames('draggable', snapshot.isDragging ? 'active-drag' : '')}
                     style={provided.draggableProps.style}>
-                    <MyFakeWords title="foo" />
+                    {child}
                   </div>
                 )}
               </Draggable>
@@ -133,8 +135,7 @@ class App extends Component {
 
     render() {
 
-      //const { children } = this.props;
-      const children = [];
+      const { children } = this.props;
 
       const columnIds = Object.keys(this.state);
       columnIds.sort();
