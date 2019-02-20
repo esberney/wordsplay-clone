@@ -21,7 +21,9 @@ export const MyFakeWords = ({ title, ...props }) => {
 const getItems1 = (count, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
     id: `item-${k + offset}`,
-    content: `item ${k + offset}`
+    content: (
+      <MyFakeWords title={`item ${k + offset}`} style={{ width: '100%' }} />
+    )
   }));
 
 const createGetItems = () => {
@@ -105,7 +107,7 @@ const Column = ({ columnId, columns, className, ...props }) => {
                   {...provided.dragHandleProps}
                   className={classnames('draggable', snapshot.isDragging ? 'active-drag' : '')}
                   style={provided.draggableProps.style}>
-                  <MyFakeWords title={item.content} style={{ width: '100%' }} />
+                  {item.content}
                 </div>
               )}
             </Draggable>
