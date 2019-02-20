@@ -134,13 +134,10 @@ class App extends Component {
           destination.index
         );
 
-        let state = { items };
+        this.setState(state => Object.assign({}, state, {
+          [source.droppableId]: items
+        }));
 
-        if (source.droppableId === 'selected') {
-          state = { selected: items };
-        }
-
-        this.setState(state);
       } else {
 
         const result = move(
