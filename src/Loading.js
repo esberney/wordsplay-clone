@@ -14,6 +14,6 @@ const FlexContainer = styled.div`
 
 export const Loading = ({}) => (
   <FlexContainer>
-    <ReactLoading type="bars" color="#000000" height="15%" width="15%" />
+    <ReactLoading type="cubes" color="#e2e2e2" height="10%" width="10%" />
   </FlexContainer>
 );
