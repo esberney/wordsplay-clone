@@ -120,8 +120,6 @@ class App extends Component {
       selected: getItems(2, 4)
     }
 
-    getList = id => this.state[id];
-
     onDragEnd = result => {
         const { source, destination } = result;
 
@@ -132,7 +130,7 @@ class App extends Component {
 
         if (source.droppableId === destination.droppableId) {
             const items = reorder(
-                this.getList(source.droppableId),
+                this.state[source.droppableId],
                 source.index,
                 destination.index
             );
@@ -146,8 +144,8 @@ class App extends Component {
             this.setState(state);
         } else {
             const result = move(
-                this.getList(source.droppableId),
-                this.getList(destination.droppableId),
+                this.state[source.droppableId],
+                this.state[destination.droppableId],
                 source,
                 destination
             );
