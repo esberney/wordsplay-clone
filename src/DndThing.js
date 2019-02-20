@@ -115,7 +115,7 @@ const Column = ({ columnId, columns, className, ...props }) => {
                     snapshot.isDragging,
                     provided.draggableProps.style
                   )}>
-                  <MyFakeWords title={item.content} style={{ width: '150px' }} />
+                  <MyFakeWords title={item.content} style={{ width: '100%' }} />
                 </div>
               )}
             </Draggable>
