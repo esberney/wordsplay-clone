@@ -15,11 +15,21 @@ export const MyFakeWords = ({ title, ...props }) => {
 
 
 // fake data generator
-const getItems = (count, offset = 0) =>
+const getItems1 = (count, offset = 0) =>
     Array.from({ length: count }, (v, k) => k).map(k => ({
         id: `item-${k + offset}`,
         content: `item ${k + offset}`
     }));
+
+const createGetItems = () => {
+  let counter = 0;
+  return count => {
+    const items = getItems1(count, counter);
+    counter += count;
+    return items;
+  }
+};
+const getItems = createGetItems();
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -69,11 +79,19 @@ const getListStyle = isDraggingOver => ({
 
 const nrows = 4;
 const createState = (nRows) => {
-  Array.from({ length: nRows }, (v, k) => k).
+  return Array.from({ length: nRows }, (v, k) => k).
   reduce((state, k) => Object.assign(state, {
     [`column-${k}`]: getItems(2) // []
-  }));
+  }), {});
+};
 
+const populateColumns = state => {
+  let i = 0;
+  const stateOut = {};
+  for (let columnId of Object.keys(state)) {
+    stateOut[columnId] = getItems(++i);
+  }
+  return stateOut;
 };
 
 const Column = ({ columnId, columns }) => {
@@ -112,11 +130,14 @@ const Column = ({ columnId, columns }) => {
   );
 };
 
+const foo = createState(2)
+const bar = populateColumns(foo)
+
 class App extends Component {
-    //state = createState(nrows)  // replaces { items, selected }
+    //state = populateColumns(createState(2))
     state = {
-      items: getItems(4),
-      selected: getItems(2, 4)
+      'column-0': getItems(4),
+      'column-1': getItems(2)
     }
 
     onDragEnd = result => {
@@ -134,7 +155,7 @@ class App extends Component {
           destination.index
         );
 
-        this.setState(state => Object.assign({}, state, {
+        this.setState((state={}) => Object.assign({}, state, {
           [source.droppableId]: items
         }));
 
@@ -147,7 +168,7 @@ class App extends Component {
           destination
         );
 
-        this.setState(state => Object.assign({}, state, {
+        this.setState((state={}) => Object.assign({}, state, {
           [source.droppableId]: result.source,
           [destination.droppableId]: result.destination
         }));
@@ -157,10 +178,15 @@ class App extends Component {
     // Normally you would want to split things out into separate components.
     // But in this example everything is just done in one place for simplicity
     render() {
+
+      const columnIds = Object.keys(this.state);
+      columnIds.sort();
+
       return (
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Column columnId="items" columns={this.state} />
-          <Column columnId="selected" columns={this.state} />
+          {columnIds.map(columnId => (
+            <Column columnId={columnId} columns={this.state} />
+          ))}
         </DragDropContext>
       );
     }
