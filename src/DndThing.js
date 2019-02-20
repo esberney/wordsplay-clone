@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Card, ListGroup } from 'react-bootstrap';
+import classnames from 'classnames';
+
+import './DndThing.css';
 
 export const MyFakeWords = ({ title, ...props }) => {
   return (
@@ -72,8 +75,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  width: 250
+
 });
 
 const nrows = 4;
@@ -93,7 +95,7 @@ const populateColumns = state => {
   return stateOut;
 };
 
-const Column = ({ columnId, columns }) => {
+const Column = ({ columnId, columns, className, ...props }) => {
 
   const columnContents = columns[columnId];
   
@@ -102,7 +104,8 @@ const Column = ({ columnId, columns }) => {
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
-          style={getListStyle(snapshot.isDraggingOver)}>
+          className={classnames(snapshot.isDraggingOver ? 'active-drop' : '', className)}
+          {...props}>
           {columnContents.map((item, index) => (
             <Draggable
               key={item.id}
@@ -174,10 +177,17 @@ class App extends Component {
       const columnIds = Object.keys(this.state);
       columnIds.sort();
 
+      const ncols = columnIds.length;
+
       return (
         <DragDropContext onDragEnd={this.onDragEnd}>
           {columnIds.map(columnId => (
-            <Column key={columnId} columnId={columnId} columns={this.state} />
+            <Column
+              key={columnId}
+              columnId={columnId}
+              columns={this.state}
+              style={{ width: `${100/ncols - 2}%` }}
+            />
           ))}
         </DragDropContext>
       );
