@@ -131,7 +131,7 @@ const Column = ({ columnId, columns }) => {
 };
 
 class App extends Component {
-    state = populateColumns(createState(2))
+    state = populateColumns(createState(3))
 
     onDragEnd = result => {
       const { source, destination } = result;
