@@ -74,11 +74,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 });
 
-const getListStyle = isDraggingOver => ({
-
-});
-
-const nrows = 4;
 const createState = (nRows) => {
   return Array.from({ length: nRows }, (v, k) => k).
   reduce((state, k) => Object.assign(state, {
