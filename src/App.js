@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import { ListGroup } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
+import { Card } from 'react-bootstrap';
 import MyThing from './DndThing.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -40,6 +40,17 @@ const createUpdateWordlist = (word, isAcceptable) => wordlist => {
     return wordlist;  // no change
 };
 
+
+const Decorated = ({ title, children, ...props }) => {
+  return (
+    <Card {...props}>
+      <Card.Header>{title}</Card.Header>
+      <Card.Body>
+        {children}
+      </Card.Body>
+    </Card>
+  );
+}
 
 class App extends Component {
 
@@ -90,16 +101,18 @@ class App extends Component {
             <Grid letters2d={myLetters} highlights={highlights} />
           </FlexCentered>
           <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
-            <TextEntry
-              value={word}
-              onChange={value => {
-                this.setState(({ wordlist }) => ({
-                  word: value,
-                  wordlist
-                }))
-              }} 
-              onEnter={() => this.onGuess(isWordOnBoard) }
-            />
+            <Decorated title="Guess">
+              <TextEntry
+                value={word}
+                onChange={value => {
+                  this.setState(({ wordlist }) => ({
+                    word: value,
+                    wordlist
+                  }))
+                }} 
+                onEnter={() => this.onGuess(isWordOnBoard) }
+              />
+            </Decorated>
           </FlexCentered>
         </div>
       );

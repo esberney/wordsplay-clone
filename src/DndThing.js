@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Card, ListGroup } from 'react-bootstrap';
 import classnames from 'classnames';
 
 import { createGetItems } from './items-creator.js';
