@@ -126,10 +126,6 @@ class App extends Component {
             <MyFakeWords key="item-4" title="Item 4" />
           </MyThing>
         </div>
-        <Board />
-        <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
-          <Entry />
-        </FlexCentered>
       </div>
     );
   }
