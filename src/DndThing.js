@@ -40,11 +40,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
     destClone.splice(droppableDestination.index, 0, removed);
 
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-
-    return result;
+    return {
+      source: sourceClone,
+      destination: destClone
+    };
 };
 
 const grid = 8;
@@ -143,6 +142,7 @@ class App extends Component {
 
         this.setState(state);
       } else {
+
         const result = move(
           this.state[source.droppableId],
           this.state[destination.droppableId],
@@ -150,10 +150,10 @@ class App extends Component {
           destination
         );
 
-        this.setState({
-          items: result.items,
-          selected: result.selected
-        });
+        this.setState(state => Object.assign({}, state, {
+          [source.droppableId]: result.source,
+          [destination.droppableId]: result.destination
+        }));
       }
     };
 
