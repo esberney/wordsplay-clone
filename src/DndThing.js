@@ -90,11 +90,12 @@ class App extends Component {
     onDragEnd = result => {
       const { source, destination } = result;
 
-      // dropped outside the list
+      // dropped outside all valid columns
       if (!destination) {
         return;
       }
 
+      // dropped into same column
       if (source.droppableId === destination.droppableId) {
         const items = reorder(
           this.state[source.droppableId],
@@ -106,6 +107,7 @@ class App extends Component {
           [source.droppableId]: items
         }));
 
+      // dropped into different column
       } else {
 
         const result = move(
@@ -122,8 +124,7 @@ class App extends Component {
       }
     };
 
-    // Normally you would want to split things out into separate components.
-    // But in this example everything is just done in one place for simplicity
+
     render() {
 
       const columnIds = Object.keys(this.state);
