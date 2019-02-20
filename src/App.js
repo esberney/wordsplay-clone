@@ -15,10 +15,6 @@ import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
 
-const MyFakeWords = ({ }) => (
-  <MyWords words={new Wordlist} />
-);
-
 
 const myLetters = [
   ['A', 'B', 'C', 'H'],

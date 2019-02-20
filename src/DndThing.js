@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Card, ListGroup } from 'react-bootstrap';
+
+export const MyFakeWords = ({ title, ...props }) => {
+  return (
+    <Card {...props}>
+      <Card.Header>{title}</Card.Header>
+      <ListGroup variant="flush">
+        <ListGroup.Item><em>Nothing here yet...</em></ListGroup.Item>
+      </ListGroup>
+    </Card>
+  );
+}
+
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -43,16 +56,16 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     margin: `0 0 ${grid}px 0`,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    //background: isDragging ? 'lightgreen' : 'grey',
 
     // styles we need to apply on draggables
     ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    //background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: grid,
-    width: 250
+    //width: 250
 });
 
 class App extends Component {
@@ -134,7 +147,7 @@ class App extends Component {
                                                 snapshot.isDragging,
                                                 provided.draggableProps.style
                                             )}>
-                                            {item.content}
+                                            <MyFakeWords title={item.content} style={{ width: '150px' }} />
                                         </div>
                                     )}
                                 </Draggable>
@@ -162,7 +175,7 @@ class App extends Component {
                                                 snapshot.isDragging,
                                                 provided.draggableProps.style
                                             )}>
-                                            {item.content}
+                                            <MyFakeWords title={item.content} style={{ width: '150px' }} />
                                         </div>
                                     )}
                                 </Draggable>

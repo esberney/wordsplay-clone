@@ -16,9 +16,9 @@ const colorize = status => {
   }
 }
 
-export const MyWords = ({ words: wordlist }) => {
+export const MyWords = ({ words: wordlist, style, ...props }) => {
   return (
-    <Card style={{ width: '25%' }}>
+    <Card style={Object.assign({ width: '25%' }, style)} {...props}>
       <Card.Header>My Words</Card.Header>
       <ListGroup variant="flush">
         {
