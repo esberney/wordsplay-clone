@@ -16,10 +16,10 @@ export const MyFakeWords = ({ title, ...props }) => {
 
 // fake data generator
 const getItems1 = (count, offset = 0) =>
-    Array.from({ length: count }, (v, k) => k).map(k => ({
-        id: `item-${k + offset}`,
-        content: `item ${k + offset}`
-    }));
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `item-${k + offset}`,
+    content: `item ${k + offset}`
+  }));
 
 const createGetItems = () => {
   let counter = 0;
@@ -33,55 +33,55 @@ const getItems = createGetItems();
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-    return result;
+  return result;
 };
 
 /**
  * Moves an item from one list to another list.
  */
 const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+  const sourceClone = Array.from(source);
+  const destClone = Array.from(destination);
+  const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-    destClone.splice(droppableDestination.index, 0, removed);
+  destClone.splice(droppableDestination.index, 0, removed);
 
-    return {
-      source: sourceClone,
-      destination: destClone
-    };
+  return {
+    source: sourceClone,
+    destination: destClone
+  };
 };
 
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
 
-    // change background colour if dragging
-    //background: isDragging ? 'lightgreen' : 'grey',
+  // change background colour if dragging
+  //background: isDragging ? 'lightgreen' : 'grey',
 
-    // styles we need to apply on draggables
-    ...draggableStyle
+  // styles we need to apply on draggables
+  ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: grid,
-    //width: 250
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  padding: grid,
+  //width: 250
 });
 
 const nrows = 4;
 const createState = (nRows) => {
   return Array.from({ length: nRows }, (v, k) => k).
   reduce((state, k) => Object.assign(state, {
-    [`column-${k}`]: getItems(2) // []
+    [`column-${k}`]: []
   }), {});
 };
 
@@ -130,15 +130,8 @@ const Column = ({ columnId, columns }) => {
   );
 };
 
-const foo = createState(2)
-const bar = populateColumns(foo)
-
 class App extends Component {
-    //state = populateColumns(createState(2))
-    state = {
-      'column-0': getItems(4),
-      'column-1': getItems(2)
-    }
+    state = populateColumns(createState(2))
 
     onDragEnd = result => {
       const { source, destination } = result;
