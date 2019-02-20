@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Dashboard from 'react-dazzle';
+import 'react-dazzle/lib/style/style.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,12 +16,51 @@ import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
 
+const MyFakeWords = ({ }) => (
+  <MyWords words={new Wordlist} />
+);
+
 class MyThing extends Component {
+
+  state = {
+    widgets: {
+      WordCounter: {
+        type: MyFakeWords,
+        title: 'Counter widget',
+      },
+      BlipBlop: {
+        type: MyFakeWords,
+        title: 'Blip Blop',
+      }
+    },
+    layout: {
+      rows: [
+        {
+          columns: [
+            {
+              className: 'col-md-6',
+              widgets: [{key: 'WordCounter'}],
+            },
+            {
+              className: 'col-md-6',
+              widgets: [{key: 'BlipBlop'}],
+            }
+          ],
+        }
+      ],
+    },
+    editMode: true,
+    isModalOpen: false
+  }
 
   render() {
     return (
-      <span>hey</span>
-    )
+      <Dashboard 
+        editable={true}
+        widgets={this.state.widgets}
+        layout={this.state.layout}
+        />
+    );
   }
 }
 
