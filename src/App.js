@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,8 +14,15 @@ import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
-import { MyThing } from './MuuriThing.js';
 
+class MyThing extends Component {
+
+  render() {
+    return (
+      <span>hey</span>
+    )
+  }
+}
 
 
 const myLetters = [
