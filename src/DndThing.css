@@ -1,5 +1,4 @@
 .active-drop {
-  background-color: lightblue;
 }
 
 .draggable {
@@ -8,6 +7,6 @@
   margin: 0 0 8px 0;
 }
 
-.draggable.active-drag {
-  background: lightgreen;
+.draggable.active-drag .card {
+  filter: drop-shadow(0 0 0.75rem crimson);
 }
