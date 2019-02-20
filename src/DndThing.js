@@ -100,32 +100,32 @@ const Column = ({ columnId, columns }) => {
   
   return (
     <Droppable droppableId={columnId}>
-        {(provided, snapshot) => (
-            <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}>
-                {columnContents.map((item, index) => (
-                    <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}>
-                        {(provided, snapshot) => (
-                            <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={getItemStyle(
-                                    snapshot.isDragging,
-                                    provided.draggableProps.style
-                                )}>
-                                <MyFakeWords title={item.content} style={{ width: '150px' }} />
-                            </div>
-                        )}
-                    </Draggable>
-                ))}
-                {provided.placeholder}
-            </div>
-        )}
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          style={getListStyle(snapshot.isDraggingOver)}>
+          {columnContents.map((item, index) => (
+            <Draggable
+              key={item.id}
+              draggableId={item.id}
+              index={index}>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  style={getItemStyle(
+                    snapshot.isDragging,
+                    provided.draggableProps.style
+                  )}>
+                  <MyFakeWords title={item.content} style={{ width: '150px' }} />
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
     </Droppable>
   );
 };
