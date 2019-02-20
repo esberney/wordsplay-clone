@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { Card } from 'react-bootstrap';
 import MyThing from './DndThing.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +14,7 @@ import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
 import { createGetItems } from './items-creator.js';
+import { Decorated } from './Decorated.js';
 
 
 const getItems = createGetItems();
@@ -40,17 +40,6 @@ const createUpdateWordlist = (word, isAcceptable) => wordlist => {
     return wordlist;  // no change
 };
 
-
-const Decorated = ({ title, children, ...props }) => {
-  return (
-    <Card {...props}>
-      <Card.Header>{title}</Card.Header>
-      <Card.Body>
-        {children}
-      </Card.Body>
-    </Card>
-  );
-}
 
 class App extends Component {
 
