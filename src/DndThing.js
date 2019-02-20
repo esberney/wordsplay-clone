@@ -6,6 +6,7 @@ import { createGetItems } from './items-creator.js';
 import './DndThing.css';
 
 const getItems = createGetItems();
+const Item = getItems(1).content;
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -48,7 +49,7 @@ const populateColumns = state => {
   return stateOut;
 };
 
-const Column = ({ columnId, columns, className, ...props }) => {
+const Column = ({ columnId, columns, children, className, ...props }) => {
 
   const columnContents = columns[columnId];
   
@@ -71,7 +72,14 @@ const Column = ({ columnId, columns, className, ...props }) => {
                   {...provided.dragHandleProps}
                   className={classnames('draggable', snapshot.isDragging ? 'active-drag' : '')}
                   style={provided.draggableProps.style}>
-                  {item.content}
+                  {
+                    (<Item />)
+                    /*
+                    children.map(Child => (
+                      (Child.key === item.id) ? (<Child />) : null
+                    ))
+                    */
+                  }
                 </div>
               )}
             </Draggable>
@@ -130,6 +138,8 @@ class App extends Component {
 
     render() {
 
+      const { children } = this.props;
+
       const columnIds = Object.keys(this.state);
       columnIds.sort();
 
@@ -142,8 +152,9 @@ class App extends Component {
               key={columnId}
               columnId={columnId}
               columns={this.state}
-              style={{ width: `${100/ncols - 2}%` }}
-            />
+              style={{ width: `${100/ncols - 2}%` }}>
+              {children}
+            </Column>
           ))}
         </DragDropContext>
       );

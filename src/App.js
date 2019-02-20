@@ -110,35 +110,53 @@ class App extends Component {
       );
     }
 
+    const [
+      { id: itemId1, content: Item1 },
+      { id: itemId2, content: Item2 },
+      { id: itemId3, content: Item3 },
+      { id: itemId4, content: Item4 }
+    ] = getItems(4);
+
     return (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <MyThing initialState={{
-            'column-0': getItems(3),
+            'column-0': [
+              {
+                id: itemId1
+              },
+              {
+                id: itemId2
+              },
+              {
+                id: itemId3
+              }
+            ],
             'column-1': [
               {
-                id: 'the-board',
-                content: (
-                  <Board />
-                )
+                id: 'the-board'
               },
-              ...getItems(1)
+              {
+                id: itemId4
+              }
             ],
             'column-2': [
               {
-                id: 'entry',
-                content: (
-                  <Entry style={{ width: '100%' }} />
-                )
+                id: 'entry'
               },
               {
-                id: 'your-words',
-                content: (
-                  <MyWords words={wordlist} style={{ width: '100%' }} />
-                )
+                id: 'your-words'
               }
             ]
-          }} />
+          }}>
+            <Board key="the-board" />
+            <Entry key="entry" style={{ width: '100%' }} />
+            <MyWords key="your-words" style={{ width: '100% '}} />
+            <Item1 key={itemId1} />
+            <Item2 key={itemId2} />
+            <Item3 key={itemId3} />
+            <Item4 key={itemId4} />
+          </MyThing>
         </div>
         <Board />
         <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
