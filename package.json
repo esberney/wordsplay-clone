@@ -6,10 +6,12 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.8.2",
+    "react-beautiful-dnd": "^10.0.4",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.2",
     "react-hotkeys": "^1.1.4",
     "react-loading": "^2.0.3",
+    "react-muuri": "^0.2.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
