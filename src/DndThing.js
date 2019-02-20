@@ -33,13 +33,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   };
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
 const createState = (nRows) => {
   return Array.from({ length: nRows }, (v, k) => k).
   reduce((state, k) => Object.assign(state, {
