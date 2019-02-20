@@ -121,40 +121,40 @@ class App extends Component {
     }
 
     onDragEnd = result => {
-        const { source, destination } = result;
+      const { source, destination } = result;
 
-        // dropped outside the list
-        if (!destination) {
-            return;
+      // dropped outside the list
+      if (!destination) {
+        return;
+      }
+
+      if (source.droppableId === destination.droppableId) {
+        const items = reorder(
+          this.state[source.droppableId],
+          source.index,
+          destination.index
+        );
+
+        let state = { items };
+
+        if (source.droppableId === 'selected') {
+          state = { selected: items };
         }
 
-        if (source.droppableId === destination.droppableId) {
-            const items = reorder(
-                this.state[source.droppableId],
-                source.index,
-                destination.index
-            );
+        this.setState(state);
+      } else {
+        const result = move(
+          this.state[source.droppableId],
+          this.state[destination.droppableId],
+          source,
+          destination
+        );
 
-            let state = { items };
-
-            if (source.droppableId === 'selected') {
-                state = { selected: items };
-            }
-
-            this.setState(state);
-        } else {
-            const result = move(
-                this.state[source.droppableId],
-                this.state[destination.droppableId],
-                source,
-                destination
-            );
-
-            this.setState({
-                items: result.items,
-                selected: result.selected
-            });
-        }
+        this.setState({
+          items: result.items,
+          selected: result.selected
+        });
+      }
     };
 
     // Normally you would want to split things out into separate components.
