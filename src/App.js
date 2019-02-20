@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import Dashboard from 'react-dazzle';
-import 'react-dazzle/lib/style/style.css';
+import MyThing from './DndThing.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,50 +18,6 @@ import { isWordAsync } from './is-word-async.js';
 const MyFakeWords = ({ }) => (
   <MyWords words={new Wordlist} />
 );
-
-class MyThing extends Component {
-
-  state = {
-    widgets: {
-      WordCounter: {
-        type: MyFakeWords,
-        title: 'Counter widget',
-      },
-      BlipBlop: {
-        type: MyFakeWords,
-        title: 'Blip Blop',
-      }
-    },
-    layout: {
-      rows: [
-        {
-          columns: [
-            {
-              className: 'col-md-6',
-              widgets: [{key: 'WordCounter'}],
-            },
-            {
-              className: 'col-md-6',
-              widgets: [{key: 'BlipBlop'}],
-            }
-          ],
-        }
-      ],
-    },
-    editMode: true,
-    isModalOpen: false
-  }
-
-  render() {
-    return (
-      <Dashboard 
-        editable={true}
-        widgets={this.state.widgets}
-        layout={this.state.layout}
-        />
-    );
-  }
-}
 
 
 const myLetters = [
@@ -131,7 +86,9 @@ class App extends Component {
 
     return (
       <div>
-        <MyThing />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <MyThing />
+        </div>
         <FlexCentered>
           <Grid letters2d={myLetters} highlights={highlights} />
         </FlexCentered>
