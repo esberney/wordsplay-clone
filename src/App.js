@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
@@ -14,7 +14,10 @@ import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
+import { createGetItems } from './items-creator.js';
 
+
+const getItems = createGetItems();
 
 const myLetters = [
   ['A', 'B', 'C', 'H'],
@@ -80,29 +83,47 @@ class App extends Component {
     const highlights = highlightedIndices2(myLetters, word);
     const isWordOnBoard = highlights.length > 0;
 
+    const Board = ({ }) => {
+      return (
+        <div>
+          <FlexCentered>
+            <Grid letters2d={myLetters} highlights={highlights} />
+          </FlexCentered>
+          <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
+            <TextEntry
+              value={word}
+              onChange={value => {
+                this.setState(({ wordlist }) => ({
+                  word: value,
+                  wordlist
+                }))
+              }} 
+              onEnter={() => this.onGuess(isWordOnBoard) }
+            />
+          </FlexCentered>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <MyThing />
+          <MyThing initialState={{
+            'column-0': getItems(3),
+            'column-1': [
+              ...getItems(1)
+            ],
+            'column-2': [
+              {
+                id: 'your-words',
+                content: (
+                  <MyWords words={wordlist} style={{ width: '100%' }} />
+                )
+              }
+            ]
+          }} />
         </div>
-        <FlexCentered>
-          <Grid letters2d={myLetters} highlights={highlights} />
-        </FlexCentered>
-        <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
-          <TextEntry
-            value={word}
-            onChange={value => {
-              this.setState(({ wordlist }) => ({
-                word: value,
-                wordlist
-              }))
-            }} 
-            onEnter={() => this.onGuess(isWordOnBoard) }
-          />
-        </FlexCentered>
-        <FlexCentered>
-          <MyWords words={wordlist} />
-        </FlexCentered>
+        <Board />
       </div>
     );
   }
