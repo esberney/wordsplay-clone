@@ -111,6 +111,12 @@ class App extends Component {
           <MyThing initialState={{
             'column-0': getItems(3),
             'column-1': [
+              {
+                id: 'the-board',
+                content: (
+                  <Board />
+                )
+              },
               ...getItems(1)
             ],
             'column-2': [
