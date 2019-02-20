@@ -89,21 +89,24 @@ class App extends Component {
           <FlexCentered>
             <Grid letters2d={myLetters} highlights={highlights} />
           </FlexCentered>
-          <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
-            <Decorated title="Guess">
-              <TextEntry
-                value={word}
-                onChange={value => {
-                  this.setState(({ wordlist }) => ({
-                    word: value,
-                    wordlist
-                  }))
-                }} 
-                onEnter={() => this.onGuess(isWordOnBoard) }
-              />
-            </Decorated>
-          </FlexCentered>
         </div>
+      );
+    };
+
+    const Entry = ({ ...props }) => {
+      return (
+        <Decorated title="Guess" {...props}>
+          <TextEntry
+            value={word}
+            onChange={value => {
+              this.setState(({ wordlist }) => ({
+                word: value,
+                wordlist
+              }))
+            }} 
+            onEnter={() => this.onGuess(isWordOnBoard) }
+          />
+        </Decorated>
       );
     }
 
@@ -123,6 +126,12 @@ class App extends Component {
             ],
             'column-2': [
               {
+                id: 'entry',
+                content: (
+                  <Entry style={{ width: '100%' }} />
+                )
+              },
+              {
                 id: 'your-words',
                 content: (
                   <MyWords words={wordlist} style={{ width: '100%' }} />
@@ -132,6 +141,9 @@ class App extends Component {
           }} />
         </div>
         <Board />
+        <FlexCentered style={{ marginTop: '50px', marginBottom: '50px' }}>
+          <Entry />
+        </FlexCentered>
       </div>
     );
   }
