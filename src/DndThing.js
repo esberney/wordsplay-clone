@@ -3,37 +3,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Card, ListGroup } from 'react-bootstrap';
 import classnames from 'classnames';
 
+import { createGetItems } from './items-creator.js';
 import './DndThing.css';
 
-export const MyFakeWords = ({ title, ...props }) => {
-  return (
-    <Card {...props}>
-      <Card.Header>{title}</Card.Header>
-      <ListGroup variant="flush">
-        <ListGroup.Item><em>Nothing here yet...</em></ListGroup.Item>
-      </ListGroup>
-    </Card>
-  );
-}
-
-
-// fake data generator
-const getItems1 = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}`,
-    content: (
-      <MyFakeWords title={`item ${k + offset}`} style={{ width: '100%' }} />
-    )
-  }));
-
-const createGetItems = () => {
-  let counter = 0;
-  return count => {
-    const items = getItems1(count, counter);
-    counter += count;
-    return items;
-  }
-};
 const getItems = createGetItems();
 
 // a little function to help us with reordering the result
