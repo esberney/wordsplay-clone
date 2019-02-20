@@ -178,7 +178,7 @@ class App extends Component {
       return (
         <DragDropContext onDragEnd={this.onDragEnd}>
           {columnIds.map(columnId => (
-            <Column columnId={columnId} columns={this.state} />
+            <Column key={columnId} columnId={columnId} columns={this.state} />
           ))}
         </DragDropContext>
       );
