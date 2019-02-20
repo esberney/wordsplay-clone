@@ -1,3 +1,13 @@
 .active-drop {
   background-color: lightblue;
 }
+
+.draggable {
+  user-select: none;
+  padding: 16px;
+  margin: 0 0 8px 0;
+}
+
+.draggable.active-drag {
+  background: lightgreen;
+}
