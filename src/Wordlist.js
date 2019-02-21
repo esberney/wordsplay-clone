@@ -9,8 +9,11 @@ export class Wordlist {
   add(entry) {
     if (false === this.set.has(entry)) {
       this.set.add(entry);
+      /*
       const index = _.sortedIndex(this.ordered, entry);
       this.ordered.splice(index, 0, entry);
+      */
+     this.ordered.unshift(entry);
       this.validities[entry] = undefined; // not yet known
       return true; // added
     }
