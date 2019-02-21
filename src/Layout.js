@@ -4,6 +4,8 @@ import classnames from 'classnames';
 
 import './Layout.css';
 
+// The code in this file was derived from the react-beautiful-dnd example code.
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
