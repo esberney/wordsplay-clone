@@ -36,4 +36,7 @@ export class Wordlist {
   isEmpty() {
     return this.ordered.length === 0;
   }
+  length() {
+    return this.ordered.length;
+  }
 }

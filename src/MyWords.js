@@ -17,20 +17,31 @@ const colorize = status => {
 }
 
 export const MyWords = ({ words: wordlist, style, ...props }) => {
+  const length = wordlist.length();
+
+  // todo -- bold good words
+  // todo -- villa:2 score
+  // Guesses (Score: 0)
+
   return (
     <Card style={Object.assign({ width: '25%' }, style)} {...props}>
       <Card.Header>My Words</Card.Header>
-      <ListGroup variant="flush">
+      <Card.Body>
         {
           wordlist.isEmpty() ? (
-            <ListGroup.Item><em>Nothing here yet...</em></ListGroup.Item>
+            <em>Nothing here yet...</em>
           ) : (
             wordlist.map((word, index) => (
-              <ListGroup.Item key={index} variant={colorize(wordlist.status(word))}>{word}</ListGroup.Item>
+              <span
+                key={index}
+                className={`text-${colorize(wordlist.status(word))}`}>
+                {word + ((length - index > 1) ? ', '  : '')}
+              </span>
             ))
           )
         }
-      </ListGroup>
+
+      </Card.Body>
     </Card>
   );
 }
