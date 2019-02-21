@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import classnames from 'classnames';
 
-import { createGetItems, MyFakeWords } from './items-creator.js';
-import './DndThing.css';
-
-const getItems = createGetItems();
+import './Layout.css';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -30,22 +27,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     source: sourceClone,
     destination: destClone
   };
-};
-
-const createState = (nRows) => {
-  return Array.from({ length: nRows }, (v, k) => k).
-  reduce((state, k) => Object.assign(state, {
-    [`column-${k}`]: []
-  }), {});
-};
-
-const populateColumns = state => {
-  let i = 0;
-  const stateOut = {};
-  for (let columnId of Object.keys(state)) {
-    stateOut[columnId] = getItems(++i);
-  }
-  return stateOut;
 };
 
 const Column = ({ columnId, columns, children, className, ...props }) => {
@@ -88,11 +69,13 @@ const Column = ({ columnId, columns, children, className, ...props }) => {
   );
 };
 
-class App extends Component {
+class Layout extends Component {
 
     constructor(props) {
       super(props);
-      this.state = props.initialState || populateColumns(createState(3));
+      if (!props.initialState)
+        throw new Error('Layout must be supplied initialState');
+      this.state = props.initialState;
     }
 
     onDragEnd = result => {
@@ -158,4 +141,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Layout;

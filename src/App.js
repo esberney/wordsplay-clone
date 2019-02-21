@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import MyThing from './DndThing.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Layout from './Layout.js';
 import { highlightedIndices2 } from './match-finder.js';
 import { FlexCentered } from './FlexCentered.js';
 import { Grid } from './Grid.js';
@@ -13,7 +13,6 @@ import { TextEntry } from './TextEntry.js';
 import { MyWords } from './MyWords.js'
 import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
-import { createGetItems } from './items-creator.js';
 import { Decorated } from './Decorated.js';
 import { MyFakeWords } from './items-creator.js';
 
@@ -112,7 +111,7 @@ class App extends Component {
     return (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <MyThing initialState={{
+          <Layout initialState={{
             'column-0': [ { id: 'item-1' }, { id: 'item-2' }, { id: 'item-3' } ],
             'column-1': [ { id: 'the-board' }, { id: 'item-4' } ],
             'column-2': [ { id: 'entry' }, { id: 'your-words' } ]
@@ -124,7 +123,7 @@ class App extends Component {
             <MyFakeWords key="item-2" title="Item 2" />
             <MyFakeWords key="item-3" title="Item 3" />
             <MyFakeWords key="item-4" title="Item 4" />
-          </MyThing>
+          </Layout>
         </div>
       </div>
     );

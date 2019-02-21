@@ -30,3 +30,25 @@ export const createGetItems = () => {
     return items;
   }
 };
+
+// some sample stuff
+
+const getItems = createGetItems();
+
+export const createState = (nRows) => {
+  return Array.from({ length: nRows }, (v, k) => k).
+  reduce((state, k) => Object.assign(state, {
+    [`column-${k}`]: []
+  }), {});
+};
+
+export const populateColumns = state => {
+  let i = 0;
+  const stateOut = {};
+  for (let columnId of Object.keys(state)) {
+    stateOut[columnId] = getItems(++i);
+  }
+  return stateOut;
+};
+
+// eg, <Layout initialState={populateColumns(createState(3))} />
