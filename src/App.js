@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
+import { Card } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -112,13 +113,19 @@ class App extends Component {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Layout initialState={{
-            'column-0': [ { id: 'item-1' }, { id: 'item-2' }, { id: 'item-3' } ],
+            'column-0': [ { id: 'item-1' }, { id: 'item-2' }, { id: 'new-game-countdown' } ],
             'column-1': [ { id: 'the-board' }, { id: 'item-4' } ],
             'column-2': [ { id: 'entry' }, { id: 'your-words' } ]
           }}>
             <Board key="the-board" />
             <Entry key="entry" style={{ width: '100%' }} />
             <MyWords key="your-words" words={wordlist} style={{ width: '100% '}} />
+            <Card key="new-game-countdown" style={{ width: '100%' }}>
+              <Card.Header>New game begins in...</Card.Header>
+              <Card.Body style={{ fontSize: 33, padding: 0, marginLeft: '8%' }}>
+                0:13
+              </Card.Body>
+            </Card>
             <MyFakeWords key="item-1" title="Item 1" />
             <MyFakeWords key="item-2" title="Item 2" />
             <MyFakeWords key="item-3" title="Item 3" />
