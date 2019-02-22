@@ -61,7 +61,7 @@ export const createBoardReducer = () => {
 
   return (state=defaultState, action) => {
 
-    const { word, wordlist, board } = state;
+    const { wordlist, board } = state;
     const { highlights, isActionableGuess } = searchBoard(board, action.guess);
 
 

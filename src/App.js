@@ -9,46 +9,19 @@ import { createLogger } from 'redux-logger';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from './Layout.js';
-import { highlightedIndices2 } from './match-finder.js';
 import { FlexCentered } from './FlexCentered.js';
-import { Grid } from './Grid.js';
-import { TextEntry } from './TextEntry.js';
+import { Board } from './Board.js';
 import { MyWords } from './MyWords.js'
-import { Wordlist } from './Wordlist.js';
-import { isWordAsync } from './is-word-async.js';
 import { Decorated } from './Decorated.js';
+import { GuessBox } from './GuessBox.js';
 import { MyFakeWords } from './items-creator.js';
 import { GameCountdown } from './GameCountdown';
 import { connectBoard, createBoardReducer } from './board-reducer.js';
 
 
-class App extends Component {
+class UnconnectedApp extends Component {
 
   render() {
-
-    const { word, wordlist, highlights, board, actions } = this.props;
-
-    const Board = ({ }) => {
-      return (
-        <div>
-          <FlexCentered>
-            <Grid letters2d={board} highlights={highlights} />
-          </FlexCentered>
-        </div>
-      );
-    };
-
-    const Entry = ({ ...props }) => {
-      return (
-        <Decorated title="Guess" {...props}>
-          <TextEntry
-            value={word}
-            onChange={value => actions.updateCurrentGuess(value)} 
-            onEnter={() => actions.makeGuess(word)}
-          />
-        </Decorated>
-      );
-    }
 
     return (
       <div>
@@ -58,9 +31,14 @@ class App extends Component {
             'column-1': [ { id: 'the-board' }, { id: 'item-4' } ],
             'column-2': [ { id: 'entry' }, { id: 'your-words' } ]
           }}>
-            <Board key="the-board" />
-            <Entry key="entry" style={{ width: '100%' }} />
-            <MyWords key="your-words" words={wordlist} style={{ width: '100% '}} />
+
+            <div key="the-board">
+              <FlexCentered>
+                <Board />
+              </FlexCentered>
+            </div>
+            <GuessBox key="entry" style={{ width: '100%' }} />
+            <MyWords key="your-words" style={{ width: '100% '}} />
             <GameCountdown key="new-game-countdown" />
             <MyFakeWords key="item-1" title="Item 1" />
             <MyFakeWords key="item-2" title="Item 2" />
@@ -72,8 +50,7 @@ class App extends Component {
     );
   }
 }
-
-const App2 = connectBoard(App);
+const App = connectBoard(UnconnectedApp);
 
 const store = createStore(
   combineReducers({
@@ -88,6 +65,6 @@ const store = createStore(
 
 export default () => (
   <Provider store={store}>
-    <App2 />
+    <App />
   </Provider>
 )

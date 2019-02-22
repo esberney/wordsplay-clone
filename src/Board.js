@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 
+import { connectBoard } from './board-reducer.js';
+
 
 const Table = styled.table`
   box-sizing: border-box;
@@ -49,12 +51,12 @@ const Row = ({ letters, rowIndex, highlights }) => {
   )
 }
 
-export const Grid = ({ letters2d, highlights }) => {
+export const UnconnectedBoard = ({ board, highlights }) => {
   return (
     <Table>
       <tbody>
         {
-          letters2d.map((letters, index) => (
+          board.map((letters, index) => (
             <Row key={index} letters={letters} rowIndex={index} highlights={highlights} />
           ))
         }
@@ -62,3 +64,5 @@ export const Grid = ({ letters2d, highlights }) => {
     </Table>
   )
 };
+
+export const Board = connectBoard(UnconnectedBoard);

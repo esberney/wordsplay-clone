@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import _ from 'lodash';
 import { Card, ListGroup } from 'react-bootstrap';
 
+import { connectBoard } from './board-reducer.js';
+
 
 const colorize = status => {
   switch (status) {
@@ -16,7 +18,7 @@ const colorize = status => {
   }
 }
 
-export const MyWords = ({ words: wordlist, style, ...props }) => {
+export const UnconnectedMyWords = ({ wordlist, style, ...props }) => {
   const length = wordlist.length();
 
   // todo -- bold good words
@@ -44,4 +46,6 @@ export const MyWords = ({ words: wordlist, style, ...props }) => {
       </Card.Body>
     </Card>
   );
-}
+};
+
+export const MyWords = connectBoard(UnconnectedMyWords);
