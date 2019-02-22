@@ -24,6 +24,7 @@ export class GameCountdown extends Component {
         });
       });
     }, 1000);
+
     this.setState(state => Object.assign({}, state, {
       intervalTimer
     }));
