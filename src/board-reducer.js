@@ -6,16 +6,15 @@ import { isWordAsync } from './is-word-async.js';
 import { Wordlist } from './Wordlist.js';
 
 export const connectBoard = connect(
-  ({ board }) => ({
-    board
-  }),
+  ({ board }) => board,
   dispatch => {
     return {
       actions: {
         updateCurrentGuess: guess => dispatch({ type: 'UPDATE_GUESS', guess }),
         makeGuess: guess => dispatch((dispatch, getState) => {
           dispatch({ type: 'MAKE_GUESS', guess });
-          const { wordsNeedingAsyncVerification } = getState();
+          const { board } = getState();
+          const { wordsNeedingAsyncVerification } = board;
           wordsNeedingAsyncVerification.forEach(({ word, status }) => {
             if (status === 'not-started') {
               dispatch({ type: 'UPDATE_WORD_STATE', word, status: 'started' })
@@ -25,9 +24,6 @@ export const connectBoard = connect(
               });
             }
           });
-        }),
-        updateGuessStatus: (guess, isWord) => dispatch((dispatch, getState) => {
-          dispatch({ type: 'UPDATE_GUESS_STATUS', guess, isWord });
         })
       }
     };
@@ -53,6 +49,7 @@ export const createBoardReducer = () => {
   const defaultState = {
     word: '',
     wordlist: new Wordlist(),
+    highlights: [],
     board: [
       ['A', 'B', 'C', 'H'],
       ['D', 'E', 'F', 'R'],
@@ -84,12 +81,17 @@ export const createBoardReducer = () => {
         if (isActionableGuess) {
           const makeGuess = compose(
             set('word', ''),
+            set('highlights', []),
             set('wordlist', wordlist.with(action.guess)),
             update('wordsNeedingAsyncVerification', list => list.concat([ { word: action.guess, status: 'not-started' } ]))
           );
           return makeGuess(state);
         } else {
-          return set('word', '', state);
+          const makeBadGuess = compose(
+            set('word', ''),
+            set('highlights', [])
+          );
+          return makeBadGuess(state);
         }
 
       case 'UPDATE_WORD_STATE':

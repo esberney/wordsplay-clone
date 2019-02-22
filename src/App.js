@@ -22,76 +22,17 @@ import { GameCountdown } from './GameCountdown';
 import { connectBoard, createBoardReducer } from './board-reducer.js';
 
 
-const myLetters = [
-  ['A', 'B', 'C', 'H'],
-  ['D', 'E', 'F', 'R'],
-  ['G', 'H', 'I', 'Q'],
-  ['Z', 'H', 'N', 'T']
-];
-
-const isWordPossible = (word, isWordOnBoard) => {
-  // not necessarily a word -- that takes time to verify
-  const isAcceptable = word && word.length && isWordOnBoard;
-  return isAcceptable;
-};
-
-const createUpdateWordlist = (word, isAcceptable) => wordlist => {
-
-  if (isAcceptable)
-    return wordlist.with(word);
-  else
-    return wordlist;  // no change
-};
-
-
-
 class App extends Component {
-
-  state = {
-    word: '',
-    wordlist: new Wordlist()
-  }
-
-  onGuess(isWordOnBoard) {
-    const { word } = this.state;
-
-    const isAcceptable = isWordPossible(word, isWordOnBoard);
-    const updateWordlist = createUpdateWordlist(word, isAcceptable);
-
-    this.setState(({ wordlist }) => {
-      return {
-        word: '',
-        wordlist: updateWordlist(wordlist)
-      };
-    });
-
-    if (isAcceptable) {
-
-      // check validity
-      isWordAsync(word).
-      then(({ isWord, word }) => {
-        this.setState(({ word: currentWord, wordlist }) => {
-          wordlist.setStatus(word, isWord);
-          return {
-            word: currentWord,
-            wordlist
-          };
-        })
-      });
-    }
-  }
 
   render() {
 
-    const { word, wordlist } = this.state;
-    const highlights = highlightedIndices2(myLetters, word);
-    const isWordOnBoard = highlights.length > 0;
+    const { word, wordlist, highlights, board, actions } = this.props;
 
     const Board = ({ }) => {
       return (
         <div>
           <FlexCentered>
-            <Grid letters2d={myLetters} highlights={highlights} />
+            <Grid letters2d={board} highlights={highlights} />
           </FlexCentered>
         </div>
       );
@@ -102,13 +43,8 @@ class App extends Component {
         <Decorated title="Guess" {...props}>
           <TextEntry
             value={word}
-            onChange={value => {
-              this.setState(({ wordlist }) => ({
-                word: value,
-                wordlist
-              }))
-            }} 
-            onEnter={() => this.onGuess(isWordOnBoard) }
+            onChange={value => actions.updateCurrentGuess(value)} 
+            onEnter={() => actions.makeGuess(word)}
           />
         </Decorated>
       );
@@ -137,6 +73,8 @@ class App extends Component {
   }
 }
 
+const App2 = connectBoard(App);
+
 const store = createStore(
   combineReducers({
     board: createBoardReducer()
@@ -150,6 +88,6 @@ const store = createStore(
 
 export default () => (
   <Provider store={store}>
-    <App />
+    <App2 />
   </Provider>
 )
