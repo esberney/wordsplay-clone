@@ -5,26 +5,40 @@ import { highlightedIndices2 } from './match-finder.js';
 import { isWordAsync } from './is-word-async.js';
 import { Wordlist } from './Wordlist.js';
 
+//
+// ACTION CREATORS
+//
+
+export const updateCurrentGuess = guess => {
+  return { type: 'UPDATE_GUESS', guess };
+}
+
+export const makeGuess = guess => (dispatch, getState) => {
+  dispatch({ type: 'MAKE_GUESS', guess });
+  const { board } = getState();
+  const { wordsNeedingAsyncVerification } = board;
+  wordsNeedingAsyncVerification.forEach(({ word, status }) => {
+    if (status === 'not-started') {
+      dispatch({ type: 'UPDATE_WORD_STATE', word, status: 'started' })
+      isWordAsync(word).
+      then(({ isWord, word }) => {
+        dispatch({ type: 'UPDATE_WORD_STATE', word, status: 'finished', isWord });
+      });
+    }
+  });
+}
+
+//
+// CONNECTORS
+//
+
 export const connectBoard = connect(
   ({ board }) => board,
   dispatch => {
     return {
       actions: {
-        updateCurrentGuess: guess => dispatch({ type: 'UPDATE_GUESS', guess }),
-        makeGuess: guess => dispatch((dispatch, getState) => {
-          dispatch({ type: 'MAKE_GUESS', guess });
-          const { board } = getState();
-          const { wordsNeedingAsyncVerification } = board;
-          wordsNeedingAsyncVerification.forEach(({ word, status }) => {
-            if (status === 'not-started') {
-              dispatch({ type: 'UPDATE_WORD_STATE', word, status: 'started' })
-              isWordAsync(word).
-              then(({ isWord, word }) => {
-                dispatch({ type: 'UPDATE_WORD_STATE', word, status: 'finished', isWord });
-              });
-            }
-          });
-        })
+        updateCurrentGuess: guess => dispatch(updateCurrentGuess(guess)),
+        makeGuess: guess => dispatch(makeGuess(guess))
       }
     };
   }
