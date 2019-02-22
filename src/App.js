@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect, Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { Card } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,6 +15,7 @@ import { Wordlist } from './Wordlist.js';
 import { isWordAsync } from './is-word-async.js';
 import { Decorated } from './Decorated.js';
 import { MyFakeWords } from './items-creator.js';
+import { GameCountdown } from './GameCountdown';
 
 
 const myLetters = [
@@ -128,54 +128,6 @@ class App extends Component {
           </Layout>
         </div>
       </div>
-    );
-  }
-}
-
-const minutes = totalSeconds => Math.floor(totalSeconds / 60);
-const seconds = totalSeconds => {
-  const s = totalSeconds % 60;
-  return (s < 10) ? `0${s}` : `${s}`;
-};
-
-class GameCountdown extends Component {
-
-  gameTime = 3 * 60
-  state = {
-    intervalTimer: undefined,
-    timeLeft: 3 * 60
-  }
-
-  componentDidMount() {
-    const intervalTimer = setInterval(() => {
-      this.setState(state => {
-        const { timeLeft } = state;
-        return Object.assign({}, state, {
-          timeLeft: timeLeft <= 0 ? 0 : (timeLeft - 1)
-        });
-      });
-    }, 1000);
-
-    this.setState(state => Object.assign({}, state, {
-      intervalTimer
-    }));
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.intervalTimer);
-  }
-
-  render() {
-
-    const { timeLeft } = this.state;
-
-    return (
-      <Card style={{ width: '100%' }}>
-        <Card.Header>New game begins in...</Card.Header>
-        <Card.Body style={{ fontSize: 33, padding: 0, marginLeft: '8%' }}>
-          {`${minutes(timeLeft)}:${seconds(timeLeft)}`}
-        </Card.Body>
-      </Card>
     );
   }
 }
