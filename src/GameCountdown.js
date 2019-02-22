@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 
+
+// action creators
+
+export const startCountdown = seconds => {
+  // todo
+
+  // clear any existing interval.
+  // set seconds value.
+  // initialize new interval.
+}
+
+
 export const minutes = totalSeconds => Math.floor(totalSeconds / 60);
 export const seconds = totalSeconds => {
   const s = totalSeconds % 60;
