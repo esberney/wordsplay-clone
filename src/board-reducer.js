@@ -81,14 +81,12 @@ export const createBoardReducer = () => {
 
     switch (action.type) {
       case 'UPDATE_GUESS':
-
-        return set(
-          'word', action.guess,
-          set(
-            'highlights', highlights, 
-            state
-          )
+        const updateGuess = compose(
+          set('word', action.guess),
+          set('highlights', highlights)
         );
+
+        return updateGuess(state);
 
       case 'MAKE_GUESS':
 

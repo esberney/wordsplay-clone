@@ -31,6 +31,7 @@ export const createGetItems = () => {
   }
 };
 
+
 // some sample stuff
 
 const getItems = createGetItems();
